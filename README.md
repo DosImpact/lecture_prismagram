@@ -11,9 +11,9 @@ instaclone Nomad
 - yarn add graphql-yoga //
 - yarn add nodemon -D //파일을 저장할때마다 실행을 새로 해주는 도구
 - yarn add babel-node //멋진 코드들을 못생긴 코드로 바꿔주는 역활
-- yarn add bable-cli -D //멋진 코드들을 못생긴 코드로 바꿔주는 역활
+- Skip this (yarn add bable-cli -D //멋진 코드들을 못생긴 코드로 바꿔주는 역활)
 
-- src/server.js추가
+- src/server.js추가 console.log
 
 - nodemon은 자동으로 서버를 가동시켜주는 서드파티모듈 | js graphql 를 다음과 같이 설정하여 같이 실행되도록 한다.!
 
@@ -35,7 +35,8 @@ instaclone Nomad
 
 # 1.1 Creating GraphQL Server (6:05)
 
-- yarn add dotenv //.env폴더를 읽어주는 모듈
+- yarn add dotenv
+- //.env폴더를 읽어주는 모듈, 코드에서 설정부분은 따로 .env 에 빼주는 좋은습관을 들이도록.
 - .babelrc 를 추가해서 프리셋을 설정하자.
 
 ```
@@ -101,3 +102,58 @@ server.start({ port: PORT }, () =>
 - //garphql에 넘기는 스키마와 리소버를 하나로 만들어 주려면 필요.
 
 - src|api| 하위에 .graphql 과 .js 를 스키마와, 리소버를 두자.!
+
+- 로거 연결해서 실시간으로 서버 상황 로깅 | 스키마 임포트해서 graphql 한번만 임포트 하기 |
+
+```js
+require("dotenv").config();
+import { GraphQLServer } from "graphql-yoga";
+import logger from "morgan";
+import schema from "./schema";
+
+const PORT = process.env.PORT || 4000;
+
+const server = new GraphQLServer({ schema });
+
+server.express.use(logger("dev"));
+server.start({ port: PORT }, () =>
+  console.log(`✅ Server running on http://localhost:${PORT}`)
+);
+```
+
+- 스미카와 리소버를 끌어와서 하나로 뭉처주기
+
+```js
+import path from "path";
+import { makeExecutableSchema } from "graphql-tools";
+import { fileLoader, mergeResolvers, mergeTypes } from "merge-graphql-schemas";
+
+const allTypes = fileLoader(path.join(__dirname, "/api/**/*.graphql"));
+const allResolvers = fileLoader(path.join(__dirname, "/api/**/*.js"));
+
+const schema = makeExecutableSchema({
+  typeDefs: mergeTypes(allTypes),
+  resolvers: mergeResolvers(allResolvers)
+});
+
+export default schema;
+```
+
+- 리소버 예시
+
+```js
+export default {
+  Query: {
+    sayGoodbye: () => "Bai"
+  }
+};
+```
+
+- 스키마 예시
+
+```js
+type Query {
+  sayGoodbye: String!
+}
+
+```
