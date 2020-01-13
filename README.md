@@ -61,7 +61,11 @@ continue
 
 # 3.6 Passport JWT part Three (16:09)
 
+### 하..... JWT는 어렵다. 설명도 부족하고, 하튼 토큰을 서버에서 퉤 하고 던지면, User는 그거를 가지고 로그인을 시도하고, 서버에서 인증을 하는 방식...
+
 # 3.7 toggleLike Resolver part One (8:25)
+
+### toggleLike 리소버 만들기.
 
 # 3.8 toggleLike and addComment Resolver (7:52)
 
