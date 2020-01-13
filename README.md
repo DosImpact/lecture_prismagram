@@ -7,9 +7,9 @@ instaclone Nomad
 # 1.0 Setting up the project (6:04)
 
 - git 연결하기
-- yarn init
+- yarn init //package.json 파일이 생긴다.
 - yarn add graphql-yoga //
-- yarn add nodemon -D //파일을 저장할때마다 실행을 새로 해주는 도구
+- yarn add nodemon -D //파일을 저장할때마다 실행을 새로 해주는 도구 ( -D 옵션은 개발시 의존성 )
 - yarn add babel-node //멋진 코드들을 못생긴 코드로 바꿔주는 역활
 - Skip this (yarn add bable-cli -D //멋진 코드들을 못생긴 코드로 바꿔주는 역활)
 
@@ -25,7 +25,7 @@ instaclone Nomad
 
 ```
 
-- package.json에 다음 명령어 추가
+- package.json에 다음 명령어 추가: nodemon을 실행기키면, babel-node로 다음 server.js를 실행시키게 됨.
 
 ```js
   "scripts": {
@@ -35,9 +35,26 @@ instaclone Nomad
 
 # 1.1 Creating GraphQL Server (6:05)
 
+## dotenv
+
 - yarn add dotenv
 - //.env폴더를 읽어주는 모듈, 코드에서 설정부분은 따로 .env 에 빼주는 좋은습관을 들이도록.
-- .babelrc 를 추가해서 프리셋을 설정하자.
+- VS Code Extension => dotenv syntax 설치
+
+- .env 추가.
+
+```
+PORT = 4000
+```
+
+## babel 추가하기
+
+- yarn add @babel/node
+- yarn add @babel/preset-env
+- yarn add @babel/core
+- Skip this (yarn remove babel-cli)
+
+* .babelrc 를 추가해서 프리셋을 설정하자.
 
 ```
 {
@@ -46,13 +63,7 @@ instaclone Nomad
 
 ```
 
-- yarn add @babel/node
-- yarn add @babel/preset-env
-- yarn add @babel/core
-- yarn remove babel-cli
-- VS Code Extension => dotenv syntax 설치
-
-- make graphQL yoga Server
+## make graphQL yoga Server : src/server.js
 
 ```js
 require("dotenv").config();
@@ -74,7 +85,6 @@ const resolvers = {
 
 const server = new GraphQLServer({ typeDefs, resolvers });
 
-server.express.use(logger("dev"));
 server.start({ port: PORT }, () =>
   console.log(`Server running on  http://localhost:${PORT}`)
 );
@@ -82,8 +92,10 @@ server.start({ port: PORT }, () =>
 
 # 1.2 Setting Up the Server like the Pros (11:17)
 
+## morgan설치하기.
+
 - yarn add morgan
-- // 멋진 로깅전용모듈 | express서버를 내장하는데 start 전에 logger를 주면 된다.
+- // 멋진 로깅전용모듈 logger가 실상 morgan이다. | express서버를 내장하는데 start 전에 logger를 주면 된다.
 
 ```js
 
@@ -121,13 +133,15 @@ server.start({ port: PORT }, () =>
 );
 ```
 
-- 스미카와 리소버를 끌어와서 하나로 뭉처주기
+## 스미카와 리소버를 끌어와서 하나로 뭉처주기
 
 ```js
 import path from "path";
 import { makeExecutableSchema } from "graphql-tools";
 import { fileLoader, mergeResolvers, mergeTypes } from "merge-graphql-schemas";
 
+//api안의 하위 모든 폴더를 선택해서 **는 모든폴더, *.js는 해당 모든 확장자 파일을 선택하자.
+//반드시 api하위 폴더에는 리소버만 둘것!!.
 const allTypes = fileLoader(path.join(__dirname, "/api/**/*.graphql"));
 const allResolvers = fileLoader(path.join(__dirname, "/api/**/*.js"));
 
@@ -137,7 +151,17 @@ const schema = makeExecutableSchema({
 });
 
 export default schema;
+
+/**
+ * api하위 폴더의 모든 리소버와 스키마를 모아서,  하나로 뭉처서 export하자.
+ * graphql-tools -> makeExecutableSchema <= typeDefs,resolvers
+ * merge-graphql-schemas -> fileLoader, mergeResolvers, mergeTypes
+ * fileLoader를 통해, 스키마와 리소버를 모으자.
+ * 모든 두 파일을 merge해서 스키마로 뺴자.
+ */
 ```
+
+## api 예시
 
 - 리소버 예시
 
@@ -157,3 +181,186 @@ type Query {
 }
 
 ```
+
+# 2.0 Introduction to Prisma (6:44)
+
+## prisma란?
+
+- ORM 이다. Object relational mapping. 한번 정의를 해두면, 프리즈마 어드민 페이지와 graphQL 플레이 그라운드를 제공해준다.
+
+## prisma 설치 및 로그인
+
+- (npm install -g prisma) //한번 글로벌로 설치 해 놨어.
+- prisma login -k //홈페이지에서 복붙해오기. eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjazRtbWN3N3B6dmZnMDg2MTFpZGd0amVhIiwiaWF0IjoxNTc3MzU4MjIxLCJleHAiOjE1Nzk5NTAyMjF9.GuvsxS8JiUJ97bWyOW-8_14xrcFgx2Lo0p3jru4pdgA
+- prisma init // 데모 서버+ SQL로 만들고, JS 클라이언트로 설정
+- .gitignore에 generated 추가.
+- prisma deploy // datamodel.prisma의 모델이 서버로 업로드 된다.
+- package.json에 "deploy": "prisma deploy" 스크립트 추가.
+
+# 2.1 Datamodel with Prisma (11:06)
+
+pass
+
+# 2.2 Testing Prisma OMG (12:53)
+
+## 다음과 같이 prisma 모델 작성하기.
+
+```json
+type User {
+   id: ID! @id
+   name: String! @unique
+   email: String! @unique
+   firstName: String @default(value: "")
+   lastName: String
+   bio: String
+   following: [User!]! @relation(name: "FollowRelation")
+   followers: [User!]! @relation(name: "FollowRelation")
+   posts: [Post!]!
+   likes: [Like!]!
+   comments: [Comment!]!
+   rooms: [Room!]!
+ }
+
+type Post {
+  id: ID! @id
+  location: String
+  caption: String!
+  user: User!
+  files: [File!]!
+  likes: [Like!]!
+  comments: [Comment!]!
+}
+
+type Like {
+  id: ID! @id
+  user: User!
+  post: Post!
+}
+
+type Comment {
+  id: ID! @id
+  text: String!
+  user: User!
+  post: Post!
+}
+
+type File {
+  id: ID! @id
+  url: String!
+  post: Post!
+}
+
+type Room {
+  id: ID! @id
+  participants: [User!]!
+  messages: [Message!]!
+}
+
+type Message {
+   id: ID! @id
+  text: String!
+  from: User! @relation(name: "From")
+  to: User! @relation(name: "To")
+  room: Room!
+}
+```
+
+## prisma는 모델을 작성하면, 어드민 패널과 플레이 그라운드까지 다 만들어 준다.
+
+[https://us1.prisma.sh/ypd03008-152cfe/prismagram/dev](https://us1.prisma.sh/ypd03008-152cfe/prismagram/dev)
+
+- playground에서 유저 추가해 보기.
+
+```js
+mutation{
+  createUser(data:{name:"doyoung kim" , email:"ypd03008@gmail.com"}){
+    id
+  }
+}
+```
+
+- id를 통해 user의 이름 찾아내기.
+
+```js
+{
+  user(where:{id:"ck5aqmzkyouap0b0933vqydbx"}){
+    name
+  }
+}
+```
+
+- id를 통해 user의 정보 업데이트
+
+```js
+mutation{
+  updateUser(data:{firstName:"DoYoung", lastName:"Kim"} where:{id:"ck5aqmzkyouap0b0933vqydbx"}){
+    id
+    name
+    email
+    firstName
+    lastName
+  }
+}
+```
+
+- id를 통해, kim doyoung 이 nicolas 팔로우 하게
+
+```js
+
+mutation{
+  updateUser(
+    data:{following:{connect:{id:"ck5aqiha9ado80b00ou1clnr5"}}}
+    where:{id:"ck5aqmzkyouap0b0933vqydbx"}
+  ){
+    id
+    name
+    firstName
+    lastName
+    following{
+      id
+    }
+    followers{
+      id
+    }
+  }
+}
+```
+
+- 그러면 nicolas는 팔로워에 추가 된다.
+
+```
+
+{
+  user(where:{id:"ck5aqiha9ado80b00ou1clnr5"}){
+    id
+    name
+    following{id}
+    followers{id}
+  }
+}
+```
+
+# 2.3 Integrating Prisma in our Server (5:48)
+
+## Prisma와 현재 컴퓨터의 graphQL 요가 서버 연동하기.
+
+- .gitignore에 prisma.yml 추가. 올리면 안되는 이유는 플레이 그라운드가 있기 때문이다.
+- 프리즈마 디폴로이후 -> 클라우드에 올라간 prisma client를 다운받아야 한다. -> generate명령어 추가. "prisma generate"
+- yarn add prisma-client-lib
+
+- front-end 에서 우리 서버로 요청을 하면 -> 프리즈마 서버로 데이터를 요청하고 -> 다시 front-end로 전달한다.
+
+```js
+//sayHello.js
+import { prisma } from "../../../../generated/prisma-client";
+export default {
+  Query: {
+    sayHello: async () => {
+      console.log(await prisma.users());
+      return "HELLO";
+    }
+  }
+};
+```
+
+# 2.4 Resolvers with Prisma (7:54
