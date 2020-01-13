@@ -7,8 +7,6 @@ type Mutation {
     bio: String
   ): User!
 }
-type Query {
-  something: String!
-}
+
 # Mutation-> createAccount라는 스키마만들고, 안의 데이터 타입은 prisma를 참고햇서, 필수 사항들에는 !를 붙여서 만들었다.
 # Query는 없으면 애러나서 그냥 아무거나 정의함.
