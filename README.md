@@ -399,6 +399,10 @@ export default {
 
 # 3.2 requestSecret Resolver (13:48)
 
+- 데이터 모델을 수정할때, loginSecret: String! 처럼 필수 항목으로 업뎃을 하면, 기존의 항목들은 없으므로 애러 -> loginSecret: String! default(value:"") 디폴트 설정으로 가능.!
+
+### updateUser를 통해, loginSecret 랜덤 제너레이트 해서 얻어와 유저업데이트 해주기.
+
 # 3.3 sendMail Function with Nodemailer (12:32)
 
 # 3.4 Passport JWT part One (11:58)
