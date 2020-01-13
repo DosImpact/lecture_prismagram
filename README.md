@@ -364,3 +364,93 @@ export default {
 ```
 
 # 2.4 Resolvers with Prisma (7:54
+
+### prisma 데이터모델을 우리 서버에도 복사하기.
+
+- api에 models.graphql 에 datamodel.prisma 추가하고, prisma문법 요소 빼기
+
+### 모든 유저를 검색하는 API , id를 통해 user를 검색하는 API 추가하기.
+
+- User라는 큰 폴더의 하위에 allUser,userById, 각각 리소버, graphql넣기.
+
+### prisma에서 user->post->id->user->id-> ... 등등으로 공격을 안받기위해, prisma-client는 이를 막는다. \$fragment라는 옵션으로 해결.
+
+# 3 GraphQL API
+
+# 3.0 Planning the API (4:59)
+
+- [ ] Log in
+- [ ] Like / Unlike a photo
+- [ ] Comment on a photo
+- [ ] Search by user
+- [ ] Search by location
+- [ ] See user profile
+- [ ] Follow / Unfollow User
+- [ ] See the full photo
+- [ ] Edit my profile
+- [x] Create account
+- [ ] Upload a photo
+- [ ] Edit the photo (Delete)
+- [ ] See the feed
+
+# 3.1 Create Account Resolver (7:32)
+
+### 프리즈마의 스키마를 보고, createUser를 이용해서, 클라이언트에서 createAccount작성하기.
+
+# 3.2 requestSecret Resolver (13:48)
+
+# 3.3 sendMail Function with Nodemailer (12:32)
+
+# 3.4 Passport JWT part One (11:58)
+
+# 3.5 Passport JWT part Two (9:58)
+
+# 3.6 Passport JWT part Three (16:09)
+
+# 3.7 toggleLike Resolver part One (8:25)
+
+# 3.8 toggleLike and addComment Resolver (7:52)
+
+# 3.9 searchUser and searchImage resolver (8:26)
+
+# 3.10 follow unfollow Resolver (7:34)
+
+# 3.11 editUser seeUser Resolver (8:10)
+
+# 3.12 me Resolver + Prisma's Limitations (11:39)
+
+# 3.13 See Full Posts (9:17)
+
+# 3.14 Computed Fields in Prisma (7:56)
+
+# 3.15 itsMe and amIFollowing Fileds part One (10:24)
+
+# 3.16 itsMe and amIFollowing Fileds part Two (8:49)
+
+# 3.17 isLiked Computed File (4:51)
+
+# 3.18 upload Resolver (12:26)
+
+# 3.19 seeFullPost Refactoring (15:45)
+
+# 3.20 editPost deletePost Resolver (11:14)
+
+# 3.21 deletePost Resolver part Two (11:46)
+
+# 3.22 seeFeed Resolver (10:33)
+
+# 3.23 sendMessage part One (15:07)
+
+# 3.24 sendMessage part Two (13:05)
+
+# 3.25 seeRoom Resolver (11:00)
+
+# 3.26 Introduction to Subscriptions (4:47)
+
+# 3.27 newMessage Subscription part One (11:27)
+
+# 3.28 newMessage Subscription part Two (13:21)
+
+# 3.29 Conclusions (7:54)
+
+# 3.30 Kill The Fragments 🔥 (5:54)
