@@ -40,10 +40,24 @@ instaclone Nomad
 
 - yarn add nodemailer
 - yarn add nodemailer-sendgrid-transport
+  [https://app.sendgrid.com/account/details](https://app.sendgrid.com/account/details)
+  [https://sendgrid.com/blog/sending-email-nodemailer-sendgrid/](https://sendgrid.com/blog/sending-email-nodemailer-sendgrid/)
 
 # 3.4 Passport JWT part One (11:58)
 
+### JWT(JSON Web Token) 인증 방식으로 계정인증을 하려고함.
+
+[http://www.passportjs.org/packages/passport-jwt/](http://www.passportjs.org/packages/passport-jwt/)
+
+- yarn add passport passport-jwt
+
+continue
+
 # 3.5 Passport JWT part Two (9:58)
+
+### JWT 생성하기.
+
+- yarn add jsonwebtoken
 
 # 3.6 Passport JWT part Three (16:09)
 
