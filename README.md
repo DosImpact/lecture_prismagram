@@ -159,6 +159,7 @@ export const COMMENT_FRAGMENT = `
 - rule1: 데이터 모델은 prisma에 첫번째로 정의되어 있고, 두번째로 models.graphql 클라이언트서버에도 저장되어 있어. prisma 찾고 -> 클라이언트 찾고.
 - rule2: merge graphql덕분에, 모든 graphql정의와 리소버가 하나의 파일로 있다고 생각할 수 있다.
 - rule3: graphQL 스키마 정의에서는 : Query|Mutation|커스텀 타입 가능 && GraphQL 리소버에는 : Query|Mutation|커스텀 타입 정의 가능 -> 리소버의 커스텀 타입이 이제 부모인자를 쓰는 경우
+- rule4: computed field란 아래와 같은 경우임..
 
 ### 클라이언트 grpahql-user-fullName 스키마를 리소버의 상속을 이용해서 구해보자.
 
