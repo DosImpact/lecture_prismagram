@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 import sgTransport from "nodemailer-sendgrid-transport";
 import jwt from "jsonwebtoken";
 
+//api-requestSecret
 export const generateSecret = () => {
   const randomNumber = Math.floor(Math.random() * adjectives.length);
   return `${adjectives[randomNumber]} ${nouns[randomNumber]}`;
@@ -19,7 +20,7 @@ const sendMail = email => {
   const client = nodemailer.createTransport(sgTransport(options));
   return client.sendMail(email);
 };
-
+//api-requestSecret
 export const sendSecretMail = (adress, secret) => {
   const email = {
     from: "ehdudtkatka@prismagram.com",

@@ -180,7 +180,7 @@ type Query {
 
 ## prisma란?
 
-- ORM 이다. Object relational mapping. 한번 정의를 해두면, 프리즈마 어드민 페이지와 graphQL 플레이 그라운드를 제공해준다.
+- ORM 이다. Object relational mapping. 한번 정의를 해두면, 프리즈마 어드민 페이지와 graphQL 플레이 그라운드를 제공해준다. 1. 프리즈마 문법으로 데이터 모델을 만들것 2. 나의 서버(prisma 입장에서는 클라이언트)에서 graphql 문법으로 재정의 해주기.
 
 ## prisma 설치 및 로그인
 

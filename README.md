@@ -2,7 +2,7 @@
 
 instaclone Nomad
 
-# 1 Set Up
+# 1 Project Set Up && Prisma Data Model Set Up
 
 [Section01_02.md](./Docs/Section01_02.md)
 
@@ -43,6 +43,8 @@ instaclone Nomad
   [https://app.sendgrid.com/account/details](https://app.sendgrid.com/account/details)
   [https://sendgrid.com/blog/sending-email-nodemailer-sendgrid/](https://sendgrid.com/blog/sending-email-nodemailer-sendgrid/)
 
+- 시크릿 키를 만들어서 이메일을 보내고, 그 키를 해당 유저의 sercetKey데이터를 업데이트한다.
+
 # 3.4 Passport JWT part One (11:58)
 
 ### JWT(JSON Web Token) 인증 방식으로 계정인증을 하려고함.
@@ -66,6 +68,10 @@ continue
 # 3.7 toggleLike Resolver part One (8:25)
 
 ### toggleLike 리소버 만들기.
+
+- Post/toggleLike에 리소버와 스키마 만들기.
+- 참고 문서...
+  [https://www.prisma.io/docs/prisma-client/features/check-existence-JAVASCRIPT-pyl1/](https://www.prisma.io/docs/prisma-client/features/check-existence-JAVASCRIPT-pyl1/)
 
 # 3.8 toggleLike and addComment Resolver (7:52)
 
