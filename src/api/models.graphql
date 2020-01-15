@@ -12,6 +12,8 @@ type User {
   comments: [Comment!]!
   rooms: [Room!]!
   loginSecret: String
+  fullName: String
+  amIFollowing: Boolean!
 }
 
 type Post {
@@ -55,4 +57,9 @@ type Message {
   from: User!
   to: User!
   room: Room!
+}
+
+type UserProfile {
+  user: User
+  posts: [Post!]!
 }

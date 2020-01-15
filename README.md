@@ -86,11 +86,126 @@ continue
 
 # 3.12 me Resolver + Prisma's Limitations (11:39)
 
+- \_는 변수명이 될수 있지만, \_\_(더블 언더 스코어)는 부모의 인자를 받는것이다.
+
 # 3.13 See Full Posts (9:17)
+
+???? Prisma에서 딥한 쿼리는 제한적이여서, fragments 사용한다는데.., fragment문법 사용하는거랑. 여러번 쿼리하는 방법이 있음.
+
+//일딴은 user만 하면, posts를 안준다는거. - 1.user에서 posts를 그냥 얻어오는건 안됨 (반드시 서브 필드를 선택해야한다.) 2. 근대 선택하면 post는 null값으로 반환된다.(애러)
+const user = await prisma.user({ id });
+const posts = await prisma.user({ id }).posts();
+
+### 프라그 맨트를 이용해서, 해당 포스트id를 쿼리하면, 포스트와 코맨트 전부, 좋아요 갯수 리턴
+
+```js
+type FullPost {
+  post: Post!
+  comments: [Comment!]!
+  likeCount: Int!
+}
+
+type Query {
+  seeFullPost(id: String!): FullPost!
+}
+-------------------------------------------------------------
+import { prisma } from "../../../../generated/prisma-client";
+import { COMMENT_FRAGMENT } from "../../../fragments";
+
+export default {
+  Query: {
+    seeFullPost: async (_, args) => {
+      const { id } = args;
+      const post = await prisma.post({ id });
+      //id를 통해 post를 검색한 결과 comments들을 가져와 그들은 Comment 배열이라서 fragment가 필요하다.
+      const comments = await prisma
+        .post({ id })
+        .comments()
+        .$fragment(COMMENT_FRAGMENT);
+      //포스트의 아이디를 통해 likes들을 가져와서 합을 구함. aggregate == 집합체 ? 배열이라 생각하자.
+      const likeCount = await prisma
+        .likesConnection({
+          where: { post: { id } }
+        })
+        .aggregate()
+        .count();
+      return {
+        post,
+        comments,
+        likeCount
+      };
+    }
+  }
+};
+-------------------------------------------------------------
+export const COMMENT_FRAGMENT = `
+    fragment CommentParts on Comment{
+        id
+        text
+        user {
+            name
+        }
+    }
+`;
+
+```
 
 # 3.14 Computed Fields in Prisma (7:56)
 
+- computed 필드 = 실제로 데이터 베이스는 아니고, User의 일부분이다. User의 firstName+LastName이 합쳐져 fullName이 되는 경우.
+
 # 3.15 itsMe and amIFollowing Fileds part One (10:24)
+
+- rule1: 데이터 모델은 prisma에 첫번째로 정의되어 있고, 두번째로 models.graphql 클라이언트서버에도 저장되어 있어. prisma 찾고 -> 클라이언트 찾고.
+- rule2: merge graphql덕분에, 모든 graphql정의와 리소버가 하나의 파일로 있다고 생각할 수 있다.
+- rule3: graphQL 스키마 정의에서는 : Query|Mutation|커스텀 타입 가능 && GraphQL 리소버에는 : Query|Mutation|커스텀 타입 정의 가능 -> 리소버의 커스텀 타입이 이제 부모인자를 쓰는 경우
+
+### 클라이언트 grpahql-user-fullName 스키마를 리소버의 상속을 이용해서 구해보자.
+
+```js
+------------------------------------------------------------------------------------------------------------
+1. User의 클라스키마에는 fullName이 있다. prisma에는 없어. 따라서 리소버에서 정의 가능하다.
+type User {
+...
+  firstName: String
+  lastName: String
+  fullName: String
+}
+------------------------------------------------------------------------------------------------------------
+2. Query me에서 User를 반환해준다.
+3. User의 fullName을 요청했는데, prisma에도 없으면 리소버를 더 찾아본다. User의 fullName이 또 정의되어 있다.
+import { prisma } from "../../../../generated/prisma-client";
+import { USER_FRAGMENT } from "../../../fragments";
+
+import { prisma } from "../../../../generated/prisma-client";
+import { USER_FRAGMENT } from "../../../fragments";
+
+export default {
+  Query: {
+    me: async (_, __, { request, isAuthenticated }) => {
+      isAuthenticated(request);
+      const { user } = request;
+      const userProfile = await prisma.user({ id: user.id });
+      const posts = await prisma.user({ id: user.id }).posts();
+      return {
+        user: userProfile,
+        posts
+      };
+    }
+  },
+  //리소버에 커스텀 타입+필드 가 있는경우 : parent는 상위 user를 부른 모든 리소버가 될수 있다. - parent는 그 리소버를 부른다.
+  User: {
+    fullName: (parent, __, { request, isAuthenticated }) => {
+      //첫번째 인자:부모 , 두번쨰는 args, 세번쨰는 문맥
+      //parent는 꼭 위의 Query:me가 아니더라도 User.fullName을 요청했던 모든 리소버가 될 수 있다.
+      //console.log(parent);
+      return `${parent.firstName} ${parent.lastName}`;
+    }
+  }
+};
+
+
+```
 
 # 3.16 itsMe and amIFollowing Fileds part Two (8:49)
 
