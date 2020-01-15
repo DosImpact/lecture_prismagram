@@ -305,6 +305,8 @@ export default {
 
 # 3.20 editPost deletePost Resolver (11:14)
 
+### Post 수정기능 만들기 - update이용.!
+
 # 3.21 deletePost Resolver part Two (11:46)
 
 # 3.22 seeFeed Resolver (10:33)
