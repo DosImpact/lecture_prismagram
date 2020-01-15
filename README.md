@@ -313,6 +313,38 @@ export default {
 
 # 3.22 seeFeed Resolver (10:33)
 
+- 프리즈마 모델 업데이트 하고, prisma deploy --force 로 , 생성 및 업데이트 날짜는 알아서 들어감.
+
+```
+각 데이터 타입에 추가해주기.
+   createdAt: DateTime! @createdAt
+   updatedAt: DateTime! @updatedAt
+```
+
+### seeFeed 완성 - 해당 유저가 팔로워 하는 사람들의 id를 얻어와서, 해당 게시물 다 보여주기. 정렬은 createAt 내림차로
+
+```js
+import { prisma } from "../../../../generated/prisma-client";
+
+export default {
+  Query: {
+    seeFeed: async (_, __, { request, isAuthenticated }) => {
+      isAuthenticated(request);
+      const { user } = request;
+      const following = await prisma.user({ id: user.id }).following();
+      return prisma.posts({
+        where: {
+          user: {
+            id_in: [...following.map(user => user.id), user.id]
+          }
+        },
+        orderBy: "createdAt_DESC"
+      });
+    }
+  }
+};
+```
+
 # 3.23 sendMessage part One (15:07)
 
 # 3.24 sendMessage part Two (13:05)
