@@ -246,7 +246,62 @@ Post: {
 
 # 3.18 upload Resolver (12:26)
 
+### 업로드 리시버 구현:
+
+- 다시한번 말하지만, upload결과 Post가 나오는데, 여기서 볼수있는정보는, 그닥 많지 않아. 왜냐면 fragment가 없거든.
+
 # 3.19 seeFullPost Refactoring (15:45)
+
+### 여러번 prisma를 호출해서 fragment를 안하는 방법과, fragment를 활용해서, 한번에 prisma를 작성하는 두가지 방법.
+
+```js
+import { prisma } from "../../../../generated/prisma-client";
+import { COMMENT_FRAGMENT, FULL_POST_FRAGMENT } from "../../../fragments";
+
+export default {
+  Query: {
+    seeFullPost: async (_, args) => {
+      const { id } = args;
+      const post = await prisma.post({ id });
+      //id를 통해 post를 검색한 결과 comments들을 가져와 그들은 Comment 배열이라서 fragment가 필요하다.
+      const comments = await prisma
+        .post({ id })
+        .comments()
+        .$fragment(COMMENT_FRAGMENT);
+      //포스트의 아이디를 통해 likes들을 가져와서 합을 구함. aggregate == 집합체 ? 배열이라 생각하자.
+      const likeCount = await prisma
+        .likesConnection({
+          where: { post: { id } }
+        })
+        .aggregate()
+        .count();
+      const files = await prisma.post({ id }).files();
+      const user = await prisma.post({ id }).user();
+      return {
+        post,
+        comments,
+        likeCount,
+        files,
+        user
+      };
+    }
+  }
+};
+```
+
+```js
+import { prisma } from "../../../../generated/prisma-client";
+import { COMMENT_FRAGMENT, FULL_POST_FRAGMENT } from "../../../fragments";
+
+export default {
+  Query: {
+    seeFullPost: async (_, args) => {
+      const { id } = args;
+      return prisma.post({ id }).$fragment(FULL_POST_FRAGMENT);
+    }
+  }
+};
+```
 
 # 3.20 editPost deletePost Resolver (11:14)
 
