@@ -309,6 +309,8 @@ export default {
 
 # 3.21 deletePost Resolver part Two (11:46)
 
+### 케스케이딩을 통해 데이터 모델 만들기 - 또는 SET_NULL을 통해 그냥 내버려 둬도 됨.
+
 # 3.22 seeFeed Resolver (10:33)
 
 # 3.23 sendMessage part One (15:07)
