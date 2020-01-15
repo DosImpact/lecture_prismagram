@@ -13,8 +13,8 @@ type User {
   rooms: [Room!]!
   loginSecret: String
   fullName: String
-  amIFollowing: Boolean!
-  itsMe: Boolean!
+  isFollowing: Boolean!
+  isSelf: Boolean!
 }
 
 type Post {
@@ -25,6 +25,7 @@ type Post {
   files: [File!]!
   likes: [Like!]!
   comments: [Comment!]!
+  isLiked: Boolean!
 }
 
 type Like {
