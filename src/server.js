@@ -7,6 +7,7 @@ import { authenticateJwt } from "./passport";
 
 const PORT = process.env.PORT || 4000;
 
+//context는 모든 리소버에서 공동으로 사용하는 데이터를 넣어준다. - request 정보랑, 미들웨어의 사용자 인증여부.
 const server = new GraphQLServer({
   schema,
   context: ({ request }) => ({ request })

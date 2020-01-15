@@ -81,6 +81,9 @@ continue
 
 # 3.11 editUser seeUser Resolver (8:10)
 
+- async함수내에서 마지막으로 return할땐 await를 사용할 필요가없다. promise가 리턴되면 자동으로 resolve되어서 전달.
+- prisma에서 updateUser할때 null값들로 넣어주면, 기존의 변수들이 유지가 된다.
+
 # 3.12 me Resolver + Prisma's Limitations (11:39)
 
 # 3.13 See Full Posts (9:17)
