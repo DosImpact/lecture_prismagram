@@ -10,19 +10,27 @@ instaclone Nomad
 
 # 3.0 Planning the API (4:59)
 
-- [ ] Log in
-- [ ] Like / Unlike a photo
-- [ ] Comment on a photo
-- [ ] Search by user
-- [ ] Search by location
-- [ ] See user profile
-- [ ] Follow / Unfollow User
-- [ ] See the full photo
-- [ ] Edit my profile
 - [x] Create account
-- [ ] Upload a photo
-- [ ] Edit the photo (Delete)
+- [x] Request Secret
+- [x] Confirm Secret (Login)
+- [x] Like / Unlike a photo
+- [x] Comment on a photo
+- [x] Search by user
+- [x] Search by location
+- [x] Follow User
+- [x] Unfollow User
+- [x] Edit my profile
+- [x] See user profile
+- [x] See MY profile
+- [x] See the full photo
+- [x] Upload a photo
+- [x] Edit the photo (Delete)
 - [ ] See the feed
+- [x] See the feed
+- [ ] See rooms
+- [ ] See room
+- [ ] Send private Message
+- [ ] Receive Message (Realtime)
 
 # 3.1 Create Account Resolver (7:32)
 
@@ -313,7 +321,7 @@ export default {
 
 # 3.22 seeFeed Resolver (10:33)
 
-- 프리즈마 모델 업데이트 하고, prisma deploy --force 로 , 생성 및 업데이트 날짜는 알아서 들어감.
+- 프리즈마 모델 업데이트 하고, prisma deploy --force 로 , 생성 및 업데이트 날짜는 알아서 들어감., force시 경고메시지로 1970년으로 자동으로 들어간다고 나옴.
 
 ```
 각 데이터 타입에 추가해주기.
@@ -345,7 +353,11 @@ export default {
 };
 ```
 
+2020-01-15
+
 # 3.23 sendMessage part One (15:07)
+
+pass
 
 # 3.24 sendMessage part Two (13:05)
 
