@@ -447,6 +447,8 @@ subscription {
 
 # 3.28 newMessage Subscription part Two (13:21)
 
+### js안에서 섭스크립션 처리하기.
+
 # 3.29 Conclusions (7:54)
 
 # 3.30 Kill The Fragments 🔥 (5:54)
