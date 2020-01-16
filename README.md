@@ -361,6 +361,8 @@ pass
 
 # 3.24 sendMessage part Two (13:05)
 
+### ??? sendMessage 어렵다. 특정 조건에 맞게 해당 스키마를 써야됨.
+
 # 3.25 seeRoom Resolver (11:00)
 
 # 3.26 Introduction to Subscriptions (4:47)
