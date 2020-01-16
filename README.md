@@ -367,7 +367,83 @@ pass
 
 # 3.26 Introduction to Subscriptions (4:47)
 
+- 데이터가 변화가 생기면, 알림을하는 subsciption 기능이 있다.
+- subscription -> Listening 상태가 되고 -> mutation 을 하는 순간. -> 바뀐정보가 전해진다.
+- prisma가 제공하는 기능이다. server를 분리해야하기 때문에 직접 subsciption을 구현하는것은 힘들다. 하지만 prisma가 제공해주지.!
+
 # 3.27 newMessage Subscription part One (11:27)
+
+```js
+subscription {
+  message(where: { AND: [{ mutation_in: CREATED }] }){
+    node{
+      id
+      text
+    }
+  }
+}
+---------------------------------------------------------
+mutation{
+  sendMessage(message:"i know your secret ", roomId:"ck5gblfut09qd0b09gsomnev9"){
+    id
+  }
+}
+```
+
+### 특정 정보의 방만 알림 받기.
+
+```js
+subscription {
+  message(
+    where: {
+      AND: [
+        { mutation_in: CREATED }
+        { node: { room: { id: "ck5gblfut09qd0b09gsomnev9" } } }
+      ]
+    }
+  ) {
+    node {
+      id
+      text
+    }
+  }
+}
+---------------------------------------------------------
+mutation{
+  sendMessage(message:"i know your secret 22222", roomId:"ck5gblfut09qd0b09gsomnev9"){
+    id
+  }
+}
+
+```
+
+### 새로운 메시지가 왔을때 && 특정 방에서 && 받는 사람만!!
+
+```js
+subscription {
+  message(
+    where: {
+      AND: [
+        { mutation_in: CREATED }
+        {
+          node: {
+            AND: [
+              { room: { id: "ck5gblfut09qd0b09gsomnev9" } }
+              { to: { id: "ck5aqiha9ado80b00ou1clnr5" } }
+            ]
+          }
+        }
+      ]
+    }
+  ) {
+    node {
+      id
+      text
+    }
+  }
+}
+
+```
 
 # 3.28 newMessage Subscription part Two (13:21)
 
