@@ -5,7 +5,7 @@ type Mutation {
     firstName: String
     lastName: String
     bio: String
-  ): User!
+  ): Boolean!
 }
 
 # Mutation-> createAccount라는 스키마만들고, 안의 데이터 타입은 prisma를 참고햇서, 필수 사항들에는 !를 붙여서 만들었다.
