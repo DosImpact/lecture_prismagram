@@ -2,7 +2,7 @@ import { adjectives, nouns } from "./words";
 
 import nodemailer from "nodemailer";
 import sgTransport from "nodemailer-sendgrid-transport";
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"; //jwt를 생성해주는 모듈이다.
 
 //api-requestSecret
 export const generateSecret = () => {
@@ -30,7 +30,8 @@ export const sendSecretMail = (adress, secret) => {
   };
   return sendMail(email);
 };
-
+//JWT 생성부분. //User id를 받아 토큰에 저장. | sign함수( payload = 문자열 -> User의 id를 사용 , 시크릿키 똔느 프라이빗 키) => 결과 JWT 토큰 뽕!
+//암호화 및 복호화에 같은 private key를 사용한다. 그러기에 .env의 비밀키는 공개하면 안됌!
 export const generateToken = id => jwt.sign({ id }, process.env.JWT_SECRET);
 
 /**

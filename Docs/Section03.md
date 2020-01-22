@@ -40,20 +40,35 @@
 
 - yarn add nodemailer
 - yarn add nodemailer-sendgrid-transport
-  [https://app.sendgrid.com/account/details](https://app.sendgrid.com/account/details)
+  [https://app.sendgrid.com/account/details](https://app.sendgrid.com/account/details)  
   [https://sendgrid.com/blog/sending-email-nodemailer-sendgrid/](https://sendgrid.com/blog/sending-email-nodemailer-sendgrid/)
 
 - 시크릿 키를 만들어서 이메일을 보내고, 그 키를 해당 유저의 sercetKey데이터를 업데이트한다.
 
+- nodemailer는 메일을 보내주는 트렌스 포트 를 제공해준다.
+- nodemailer-sendgrid-transport는 메일을 실질적으로 보내는 서버 역활을 한다. 아이디비번까지 옵션으로 넣어주어, nodemailer에 통합!
+
 # 3.4 Passport JWT part One (11:58)
+
+- confirmSecret에서 email과 시크릿 문장을 입력받아 맞으면 JWT 반환!
+- passortjs에서 전략(strategy)에는 facebook로그인,kakao로그인,등등 있는데, 지금은 jwt를 사용해보겠다.
+
+```
+//HTTP에 JWT토큰을 입력했어
+//서버에 요청을해
+//미들웨어를 통과를하면서 -로거 통과,
+//authenticateJwt 통과한다.
+//server.js에 passport.js파일 임포트 -> passport는 전략(옵션(헤더에JWT,시크릿키), 시행할 함수) 가 설정되고, 초기화 셋팅됨
+////authenticateJwt('jwt,옵션,콜백) 에서는 콜백함수 결과를 받아서 (verifyUser)에서 온 정보임. r
+// req.user 에 user를 넣어준다..
+// server에서 context에 { request } 을 받으면 방금 위 user가 담겨있음.
+```
 
 ### JWT(JSON Web Token) 인증 방식으로 계정인증을 하려고함.
 
 [http://www.passportjs.org/packages/passport-jwt/](http://www.passportjs.org/packages/passport-jwt/)
 
 - yarn add passport passport-jwt
-
-continue
 
 # 3.5 Passport JWT part Two (9:58)
 
