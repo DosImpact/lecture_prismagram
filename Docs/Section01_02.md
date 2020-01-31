@@ -168,6 +168,7 @@ export default schema;
 ## prisma 설치 및 로그인
 
 - (npm install -g prisma) //한번 글로벌로 설치 해 놨어.
+- prisma add service 서비스 실행 선택후
 - prisma login -k //홈페이지에서 복붙해오기. eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjazRtbWN3N3B6dmZnMDg2MTFpZGd0amVhIiwiaWF0IjoxNTc3MzU4MjIxLCJleHAiOjE1Nzk5NTAyMjF9.GuvsxS8JiUJ97bWyOW-8_14xrcFgx2Lo0p3jru4pdgA
 - prisma init // 데모 서버+ SQL로 만들고, JS 클라이언트로 설정
 - .gitignore에 generated 추가.

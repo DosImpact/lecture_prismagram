@@ -64,7 +64,3 @@ const resolvers = {
 const server = new GraphQLServer({typeDefs,resolvers});
 server.start({port:PROT}, () => console.log(`Server is running on http://localhost:400));
 ```
-
-//칭찬 : BFS문제와 BF 문제 실버 2따리 연습한거 축하해.. 난이도는 그냥 쉬움이지 뭐.
-
-//질문 : 팔로워 팔로우 릴레이션관계 아직도 이해 안됨..

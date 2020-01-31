@@ -24,11 +24,12 @@ yarn add react-router-dom graphql graphql-tag react-apollo@2.5 apollo-boost
 ```
 (npm install -g prisma)
 yarn add graphql-yoga graphql-tools merge-graphql-schemas@1.7.3
-yarn add @babel/core @babel/node @babel/preset-env
-yarn add dotenv morgan nodemon
+yarn add @babel/core @babel/node @babel/preset-env nodemon -D
+yarn add dotenv morgan
 yarn add prisma-client-lib
 yarn add nodemailer nodemailer-sendgrid-transport
 yarn add passport passport-jwt jsonwebtoken
+
 //인증 전반적인과정을 다루는 모듈 | 인증 전략 jwt | jwt 토큰 생성
 
 
