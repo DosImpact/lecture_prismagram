@@ -323,7 +323,7 @@ mutation{
 ## Prisma와 현재 컴퓨터의 graphQL 요가 서버 연동하기.
 
 - .gitignore에 prisma.yml 추가. 올리면 안되는 이유는 플레이 그라운드가 있기 때문이다.
-- 프리즈마 디폴로이후 -> 클라우드에 올라간 prisma client를 다운받아야 한다. -> generate명령어 추가. "prisma generate"
+- 프리즈마 디폴로이 후 -> 클라우드에 올라간 prisma client를 다운받아야 한다. -> generate명령어 추가. "prisma generate"
 - yarn add prisma-client-lib
 
 - front-end 에서 우리 서버로 요청을 하면 -> 프리즈마 서버로 데이터를 요청하고 -> 다시 front-end로 전달한다.
