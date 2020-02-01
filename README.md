@@ -29,6 +29,7 @@ yarn add dotenv morgan
 yarn add prisma-client-lib
 yarn add nodemailer nodemailer-sendgrid-transport
 yarn add passport passport-jwt jsonwebtoken
+yarn add prisma-client-lib
 
 //인증 전반적인과정을 다루는 모듈 | 인증 전략 jwt | jwt 토큰 생성
 
