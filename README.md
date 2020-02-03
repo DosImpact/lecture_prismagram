@@ -47,7 +47,7 @@ yarn add prisma-client-lib
 
 ### Users 아이디로 여러명 지우기
 
-```
+```js
 mutation{
   deleteManyUsers(where:{
     id_in:["ck5bu52stqm3a0b094eqp02gh","ck66g6jsca7ft0b09bqu8whr0"]
@@ -55,4 +55,19 @@ mutation{
     count
   }
 }
+```
+
+### User email , user 중복 확인 로직
+
+```js
+     // const exists = await prisma.$exists.user({ OR:[{name},{email}]})
+      const existsName = await prisma.$exists.user({ name });
+      if (existsName) {
+        throw Error("this name is already taken!");
+      }
+      const existsEmail = await prisma.$exists.user({ email });
+      if (existsEmail) {
+        throw Error("this email is already taken!");
+      }
+      try
 ```
