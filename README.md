@@ -45,14 +45,14 @@ yarn add prisma-client-lib
 [Section01_02.md](./Docs/Section01_02.md)
 [Section03.md](./Docs/Section03.md)
 
-# 4 Frontend Setup
+### Users 아이디로 여러명 지우기
 
-# 4.0 CRA Cleanup and Installation (5:45)
-
-# 4.1 GlobalStyles and Theme (12:06)
-
-# 4.2 React Router (9:15)
-
-# 4.3 Apollo Client (12:06)
-
-# 4.4 First Hooks Query (8:02)
+```
+mutation{
+  deleteManyUsers(where:{
+    id_in:["ck5bu52stqm3a0b094eqp02gh","ck66g6jsca7ft0b09bqu8whr0"]
+  }){
+    count
+  }
+}
+```
