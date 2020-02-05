@@ -45,6 +45,23 @@ export const FULL_POST_FRAGMENT = `
     }
 `;
 
+export const SEE_FEED = `
+    fragment PostParts on Post{
+        id
+        location
+        caption
+        files {
+            ${FILE_FRAGMENT}
+        }
+        comments {
+            ${COMMENT_FRAGMENT}
+        }
+        user {
+            ${USER_FRAGMENT}
+        }
+    }
+`;
+
 export const ROOM_FRAGMENT = `
     fragment RoomParts on Room {
         id

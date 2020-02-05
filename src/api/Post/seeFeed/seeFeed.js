@@ -1,4 +1,5 @@
 import { prisma } from "../../../../generated/prisma-client";
+import { SEE_FEED } from "../../../fragments";
 
 export default {
   Query: {
@@ -6,14 +7,16 @@ export default {
       isAuthenticated(request);
       const { user } = request;
       const following = await prisma.user({ id: user.id }).following();
-      return prisma.posts({
-        where: {
-          user: {
-            id_in: [...following.map(user => user.id), user.id]
-          }
-        },
-        orderBy: "createdAt_DESC"
-      });
+      return prisma
+        .posts({
+          where: {
+            user: {
+              id_in: [...following.map(user => user.id), user.id]
+            }
+          },
+          orderBy: "createdAt_DESC"
+        })
+        .$fragment(SEE_FEED);
     }
   }
 };
