@@ -4,7 +4,7 @@ import { COMMENT_FRAGMENT, FULL_POST_FRAGMENT } from "../../../fragments";
 export default {
   Query: {
     seeFullPost: async (_, args) => {
-      const { id } = args;
+      // const { id } = args;
       // const post = await prisma.post({ id });
       // //id를 통해 post를 검색한 결과 comments들을 가져와 그들은 Comment 배열이라서 fragment가 필요하다.
       // const comments = await prisma
