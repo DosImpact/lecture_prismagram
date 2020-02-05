@@ -86,7 +86,7 @@ server.start({ port: PORT }, () =>
 
 # 1.2 Setting Up the Server like the Pros (11:17)
 
-## morgan설치하기.
+## morgan 설치하기.
 
 - yarn add morgan
 - // 멋진 로깅전용모듈 logger가 실상 morgan이다. | express서버를 내장하는데 start 전에 logger를 주면 된다.

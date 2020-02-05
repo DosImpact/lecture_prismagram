@@ -4,7 +4,7 @@ instaclone Nomad
 
 # 요약
 
-````
+```
 #환경 1. only grapqhl-yoga server
 yarn add graphql-yoga node-fetch babel-cli babel-preset-env babel-preset-stage-3 nodemon
 
@@ -17,6 +17,9 @@ npx create-react-app movieql-client
 yarn add react-router-dom graphql graphql-tag react-apollo@2.5 apollo-boost
 
 #환경 3. grapqhl-yoga server + prisma
+
+```
+
 ## 환경 설정 - Grapqh + Prisma 를 기본 프로젝트 셋팅으로 가져가자.
 
 ```js
@@ -27,7 +30,7 @@ yarn add nodemailer nodemailer-sendgrid-transport
 yarn add passport passport-jwt jsonwebtoken
 yarn add prisma-client-lib
 (yarn add prisma -g)
-````
+```
 
 ```js
 prisma login -k // by 홈페이지에서 service 추가후
@@ -88,12 +91,9 @@ prisma generate
 
 ```
 
-```
-
 ### 환경 설정
 
 ```
-
 (npm install -g prisma)
 yarn add graphql-yoga graphql-tools merge-graphql-schemas@1.7.3
 yarn add @babel/core @babel/node @babel/preset-env nodemon -D
@@ -105,14 +105,90 @@ yarn add prisma-client-lib
 
 //인증 전반적인과정을 다루는 모듈 | 인증 전략 jwt | jwt 토큰 생성
 
+
     "babel-node": "^0.0.1-security", ??
 
-````
+
+
+```
 
 # 1 Project Set Up && Prisma Data Model Set Up
 
 [Section01_02.md](./Docs/Section01_02.md)
 [Section03.md](./Docs/Section03.md)
+
+## prisma 사용법 정리
+
+### playground에서 유저 추가해 보기.
+
+```js
+mutation{
+  createUser(data:{name:"doyoung kim" , email:"ypd03008@gmail.com"}){
+    id
+  }
+}
+```
+
+### id를 통해 user의 이름 찾아내기.
+
+```js
+{
+  user(where:{id:"ck5aqmzkyouap0b0933vqydbx"}){
+    name
+  }
+}
+```
+
+### id를 통해 user의 정보 업데이트
+
+```js
+mutation{
+  updateUser(data:{firstName:"DoYoung", lastName:"Kim"} where:{id:"ck5aqmzkyouap0b0933vqydbx"}){
+    id
+    name
+    email
+    firstName
+    lastName
+  }
+}
+```
+
+### id를 통해, kim doyoung 이 nicolas 팔로우 하게
+
+```js
+
+mutation{
+  updateUser(
+    data:{following:{connect:{id:"ck5aqiha9ado80b00ou1clnr5"}}}
+    where:{id:"ck5aqmzkyouap0b0933vqydbx"}
+  ){
+    id
+    name
+    firstName
+    lastName
+    following{
+      id
+    }
+    followers{
+      id
+    }
+  }
+}
+```
+
+- 그러면 nicolas는 팔로워에 추가 된다.
+
+```
+
+{
+  user(where:{id:"ck5aqiha9ado80b00ou1clnr5"}){
+    id
+    name
+    following{id}
+    followers{id}
+  }
+}
+```
 
 ### Users 아이디로 여러명 지우기
 
@@ -124,7 +200,7 @@ mutation{
     count
   }
 }
-````
+```
 
 ### User email , user 중복 확인 로직
 

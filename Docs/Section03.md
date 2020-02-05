@@ -78,8 +78,6 @@
 
 # 3.6 Passport JWT part Three (16:09)
 
-### 하..... JWT는 어렵다. 설명도 부족하고, 하튼 토큰을 서버에서 퉤 하고 던지면, User는 그거를 가지고 로그인을 시도하고, 서버에서 인증을 하는 방식...
-
 # 3.7 toggleLike Resolver part One (8:25)
 
 ### toggleLike 리소버 만들기.
@@ -102,6 +100,59 @@
 # 3.12 me Resolver + Prisma's Limitations (11:39)
 
 - \_는 변수명이 될수 있지만, \_\_(더블 언더 스코어)는 부모의 인자를 받는것이다.
+
+---
+
+## [prisma.user({id}).\$fragment( [FRAGE_MENT] ) ;
+
+// 프라그 맨트 기본 : prisma는 딥한 관계를 안준다.
+
+// 예를들어 User는 posts라는 Post 객체를 참조하는데, prisma는 애초에 Post를 null로 준다.
+
+const SEE_USER = `fragment Fucking on AssholeUser{ name password posts{ caption } }`;
+
+type Query {
+seeUser(id: String): User!
+}
+
+Query: {
+seeUser: async (\_, { id }) => {
+const res = await prisma.user({ id }).\$fragment(SEE_USER);
+return res;
+},
+}
+
+//또 다른 해결법.
+
+// 여러번 쿼리를 해서 새로운 타입을 주는것임.!
+// 그러기 위해 타입을 재정의 해서 줄것들을 미리 만들어 둬야함.
+
+type Query {
+seeUser(id: String): UserPost!
+}
+
+type UserPost {
+user: User!
+posts: [Post!]!
+}
+
+    seeUser: async (_, { id }) => {
+      const user = await prisma.user({ id });
+      const posts = await prisma.user({ id }).posts();
+      return { user, posts };
+    },
+
+//쿼리 요청 결과 데이터 스키마도 달라진다.
+{
+seeUser(id: "ck63kqofxoamu0b00zc291fi2") {
+user{
+name
+}
+posts {
+caption
+}
+}
+}
 
 # 3.13 See Full Posts (9:17)
 
