@@ -27,7 +27,7 @@ export default {
       //   files,
       //   user
       // };
-      return prisma.post({ id }).$fragment(FULL_POST_FRAGMENT);
+      return prisma.post({ id });
     }
   }
 };
