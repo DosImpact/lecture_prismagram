@@ -224,14 +224,14 @@ export const COMMENT_FRAGMENT = `
 
 - rule1: 데이터 모델은 prisma에 첫번째로 정의되어 있고, 두번째로 models.graphql 클라이언트서버에도 저장되어 있어. prisma 찾고 -> 클라이언트 찾고.
 - rule2: merge graphql덕분에, 모든 graphql정의와 리소버가 하나의 파일로 있다고 생각할 수 있다.
-- rule3: graphQL 스키마 정의에서는 : Query|Mutation|커스텀 타입 가능 && GraphQL 리소버에는 : Query|Mutation|커스텀 타입 정의 가능 -> 리소버의 커스텀 타입이 이제 부모인자를 쓰는 경우
+- rule3: graphQL 스키마 정의에서는 : Query|Mutation|커스텀 타입 가능 && GraphQL 리소버에는 : Query|Mutation|커스텀 타입 정의 가능 -> 리소버의 커스텀 타입이 이제 `부모인자`를 쓰는 경우
 - rule4: computed field란 아래와 같은 경우임..
 
 ### 클라이언트 grpahql-user-fullName 스키마를 리소버의 상속을 이용해서 구해보자.
 
 ```js
 ------------------------------------------------------------------------------------------------------------
-1. User의 클라스키마에는 fullName이 있다. prisma에는 없어. 따라서 리소버에서 정의 가능하다.
+1. User의 models.graphql(클라이언트 스키마)에는 fullName을 정의 했음. 이는 반드시 리소버에서 해결을 해주어야 한다.
 type User {
 ...
   firstName: String
@@ -239,28 +239,19 @@ type User {
   fullName: String
 }
 ------------------------------------------------------------------------------------------------------------
-2. Query me에서 User를 반환해준다.
-3. User의 fullName을 요청했는데, prisma에도 없으면 리소버를 더 찾아본다. User의 fullName이 또 정의되어 있다.
+2. me.graphql에 User을 반환해주는 어떠한 쿼리 스키마 정의 ( 단지 User 티입의 fullName을 부르는 방법중 하나.)
+type Query {
+  me: User!
+}
+------------------------------------------------------------------------------------------------------------
+3. User의 fullName을 요청했는데, prisma에 분명해 없기 때문에, 리소버를 더 찾아본다. Query,Mutation이 아닌, 타입 User안에 fullName이 정의되어 있다.
 import { prisma } from "../../../../generated/prisma-client";
-import { USER_FRAGMENT } from "../../../fragments";
-
-import { prisma } from "../../../../generated/prisma-client";
-import { USER_FRAGMENT } from "../../../fragments";
 
 export default {
   Query: {
-    me: async (_, __, { request, isAuthenticated }) => {
-      isAuthenticated(request);
-      const { user } = request;
-      const userProfile = await prisma.user({ id: user.id });
-      const posts = await prisma.user({ id: user.id }).posts();
-      return {
-        user: userProfile,
-        posts
-      };
-    }
+  ...
   },
-  //리소버에 커스텀 타입+필드 가 있는경우 : parent는 상위 user를 부른 모든 리소버가 될수 있다. - parent는 그 리소버를 부른다.
+  // 지금까지 리소버는 쿼리나 뮤테이션 이었어 - 하지만 리소버에 (커스텀 타입필드) 가 있는경우 : parent는 상위 user를 부른 모든 리소버가 될수 있다. - parent는 그 리소버를 부른다.
   User: {
     fullName: (parent, __, { request, isAuthenticated }) => {
       //첫번째 인자:부모 , 두번쨰는 args, 세번쨰는 문맥
@@ -425,9 +416,10 @@ pass
 
 # 3.26 Introduction to Subscriptions (4:47)
 
-- 데이터가 변화가 생기면, 알림을하는 subsciption 기능이 있다.
-- subscription -> Listening 상태가 되고 -> mutation 을 하는 순간. -> 바뀐정보가 전해진다.
-- prisma가 제공하는 기능이다. server를 분리해야하기 때문에 직접 subsciption을 구현하는것은 힘들다. 하지만 prisma가 제공해주지.!
+- 데이터가 변화가 생기면, 알림을 하는 subsciption 기능이 있다.
+- 내부적으로는 웹 소켓 io 로 구현아 됨.
+- subscription -> Listening 상태가 되고 -> mutation 을 하는 순간. -> 바뀐정보가 전해진다. ( 생성시만, 업데이트시만, 삭제시만 )
+- prisma가 제공하는 기능이다. 만약 직접구현한다면 server를 분리해야하기 때문에 subsciption을 구현하는것은 힘들다. 하지만 prisma가 제공해주지.!
 
 # 3.27 newMessage Subscription part One (11:27)
 

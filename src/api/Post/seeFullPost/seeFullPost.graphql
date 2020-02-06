@@ -1,3 +1,9 @@
 type Query {
   seeFullPost(id: String!): Post!
 }
+
+type FullPost {
+  post: Post!
+  comments: [Comment!]!
+  likeCount: Int!
+}
