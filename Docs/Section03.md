@@ -502,3 +502,9 @@ subscription {
 # 3.29 Conclusions (7:54)
 
 # 3.30 Kill The Fragments 🔥 (5:54)
+
+- 깊은 관계를 얻기 위해서는 두 가지 방법이 있다.
+
+1. Fragement 작성하기
+2. computed field는 아니지만, resolver에서 User의 Files 들을(하위 요소를) 다시 한번 prisma.... 로 불러주기
+   (왜냐하면 prisma 가 하위 객체를 주지 않으면, graphql 내부에서 다시한번 resolver에서 필드타입을 찾으므로..)
