@@ -12,7 +12,7 @@ const verifyUser = async (payload, done) => {
   try {
     const user = await prisma.user({ id: payload.id }); //프리즈마는 못찾아도 애러가 아니다. null이라 다음처럼 처리....
     if (user !== null) {
-      return done(null, user);
+      return done(null, user); //끝났어!! , null 애러는 없고 , user사용자를 리턴할께.
     } else {
       //물론 아이디를 만들 수 있음.
       return done(null, false);
