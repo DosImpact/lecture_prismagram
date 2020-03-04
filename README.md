@@ -221,6 +221,7 @@ mutation{
 
 - yarn add multer
 - yarn add multer-s3
+- yarn add aws-sdk
 
 ```js
 server.express.post("/api/upload", uploadMiddleware, uploadController);
