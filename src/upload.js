@@ -21,6 +21,8 @@ const upload = multer({
   })
 });
 
+//만약에 multer을 이용해서 여러개의 파일을 한번에 업로드하려면
+export const uploadsMiddleware = upload.array("photos", 3);
 export const uploadMiddleware = upload.single("file");
 
 export const uploadController = (req, res) => {
