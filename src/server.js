@@ -25,7 +25,7 @@ const numCPUs = os.cpus().length;
 
 server.start({ port: PORT }, () =>
   console.log(
-    `✅ ${process.pid} pid / CPUs: ${numCPUs} --> Server running on http://localhost:${PORT}`
+    `✅ ${process.pid} pid / CPUs: ${numCPUs} /Ver 1.0.0--> Server running on http://localhost:${PORT}`
   )
 );
 
