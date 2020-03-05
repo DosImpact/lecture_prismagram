@@ -21,9 +21,11 @@ server.express.use(logger("dev"));
 server.express.use(authenticateJwt);
 server.express.post("/api/upload", uploadMiddleware, uploadController);
 
+const numCPUs = os.cpus().length;
+
 server.start({ port: PORT }, () =>
   console.log(
-    `✅ ${process.pid} pid --> Server running on http://localhost:${PORT}`
+    `✅ ${process.pid} pid / CPUs: ${numCPUs} --> Server running on http://localhost:${PORT}`
   )
 );
 
