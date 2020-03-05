@@ -5,3 +5,4 @@ prisma.yml
 
 /src/.env
 uploads/
+build/
